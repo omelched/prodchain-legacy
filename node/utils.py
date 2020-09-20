@@ -41,13 +41,22 @@ class ApplicationInitializationException(InitializationException):
     pass
 
 
+class InvalidTXDataException(LoggedBaseException):
+    pass
+
+
 class Config:
     if 'HEROKU' in list(os.environ.keys()):
-        ON_HEROKU = os.environ['HEROKU']
+        ON_HEROKU = bool(os.environ['HEROKU'])
     else:
         ON_HEROKU = False
 
     if 'UNSTABLE' in list(os.environ.keys()):
-        SUFFIX = '-unstable'
+        UNSTABLE = bool(os.environ['UNSTABLE'])
     else:
-        SUFFIX = ''
+        UNSTABLE = False
+
+    if 'TESTING' in list(os.environ.keys()):
+        TESTING = bool(os.environ['TESTING'])
+    else:
+        TESTING = False
