@@ -41,7 +41,11 @@ def get_chain():
 
 @application.route('/mine', methods=['GET'])
 def mine_unconfirmed_tx():
+    if application.busy:
+        return 'Mining in process... please wait.', 200
+    application.busy = True
     result = application.blockchain.mine()
+    application.busy = False
     if not result:
         return 'No transactions to mine'
     else:
